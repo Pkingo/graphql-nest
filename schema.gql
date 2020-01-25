@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AuthDTO {
+  access_token: String!
+}
+
 type ItemDTO {
   id: ID!
   title: String!
@@ -20,9 +24,21 @@ type Mutation {
   createItem(input: ItemInput!): ItemDTO!
   updateItem(input: ItemInput!, id: String!): ItemDTO!
   deleteItem(id: String!): ItemDTO!
+  login(user: UserInput!): AuthDTO!
+  register(user: UserInput!): UserDTO!
 }
 
 type Query {
   items: [ItemDTO!]!
-  hello: String!
+  whoAmI: UserDTO!
+}
+
+type UserDTO {
+  id: ID!
+  username: String!
+}
+
+input UserInput {
+  username: String!
+  password: String!
 }

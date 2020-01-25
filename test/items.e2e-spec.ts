@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import { ItemsModule } from '../src/items/items.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GraphQLModule } from '@nestjs/graphql';
-import { Item } from '../src/items/interfaces/item.interface';
+import { Item } from '../src/items/item.interface';
 
 describe('ItemsController (e2e)', () => {
   let app;
