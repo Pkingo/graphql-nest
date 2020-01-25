@@ -18,6 +18,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+After the app is running, visit http://localhost:3000/graphql to try out the GraphQl playground
 
 ## Docker
 A docker container with mongo is used for local development
