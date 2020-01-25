@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/user/user.interface';
-import { UserService } from 'src/user/user.service';
+import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { User } from "src/user/user.interface";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService
-  ) { }
+  ) {}
 
   async validateUser(username: string, password: string): Promise<User> {
     const user = await this.userService.findOne(username);
@@ -22,7 +22,7 @@ export class AuthService {
     const { _id } = await this.userService.findOne(username);
     const access_token = this.jwtService.sign({
       username,
-      sub: _id,
+      sub: _id
     });
     return { access_token };
   }

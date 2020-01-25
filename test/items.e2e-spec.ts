@@ -1,22 +1,22 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
-import { ItemsModule } from '../src/items/items.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { GraphQLModule } from '@nestjs/graphql';
-import { Item } from '../src/items/item.interface';
+import { Test, TestingModule } from "@nestjs/testing";
+import * as request from "supertest";
+import { ItemsModule } from "../src/items/items.module";
+import { MongooseModule } from "@nestjs/mongoose";
+import { GraphQLModule } from "@nestjs/graphql";
+import { Item } from "../src/items/item.interface";
 
-describe('ItemsController (e2e)', () => {
+describe("ItemsController (e2e)", () => {
   let app;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
         ItemsModule,
-        MongooseModule.forRoot('mongodb://localhost/nestgraphqltesting'),
+        MongooseModule.forRoot("mongodb://localhost/nestgraphqltesting"),
         GraphQLModule.forRoot({
-          autoSchemaFile: 'schema.gql',
-        }),
-      ],
+          autoSchemaFile: "schema.gql"
+        })
+      ]
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -28,22 +28,22 @@ describe('ItemsController (e2e)', () => {
   });
 
   const item = {
-    title: 'Great item',
+    title: "Great item",
     price: 10,
-    description: 'Description of this great item',
+    description: "Description of this great item"
   } as Item;
 
-  let id: string = '';
+  let id: string = "";
 
   const updatedItem = {
-    title: 'Great updated item',
+    title: "Great updated item",
     price: 20,
-    description: 'Updated description of this great item',
+    description: "Updated description of this great item"
   } as Item;
 
   const createitemObject = JSON.stringify(item).replace(
     /\"([^(\")"]+)\":/g,
-    '$1:',
+    "$1:"
   );
 
   const createItemQuery = `
@@ -56,12 +56,12 @@ describe('ItemsController (e2e)', () => {
     }
   }`;
 
-  it('createItem', () => {
+  it("createItem", () => {
     return request(app.getHttpServer())
-      .post('/graphql')
+      .post("/graphql")
       .send({
         operationName: null,
-        query: createItemQuery,
+        query: createItemQuery
       })
       .expect(({ body }) => {
         const data = body.data.createItem;
@@ -73,12 +73,12 @@ describe('ItemsController (e2e)', () => {
       .expect(200);
   });
 
-  it('getItems', () => {
+  it("getItems", () => {
     return request(app.getHttpServer())
-      .post('/graphql')
+      .post("/graphql")
       .send({
         operationName: null,
-        query: '{items{title, price, description, id}}',
+        query: "{items{title, price, description, id}}"
       })
       .expect(({ body }) => {
         const data = body.data.items;
@@ -93,10 +93,10 @@ describe('ItemsController (e2e)', () => {
 
   const updateItemObject = JSON.stringify(updatedItem).replace(
     /\"([^(\")"]+)\":/g,
-    '$1:',
+    "$1:"
   );
 
-  it('updateItem', () => {
+  it("updateItem", () => {
     const updateItemQuery = `
     mutation {
       updateItem(id: "${id}", input: ${updateItemObject}) {
@@ -108,10 +108,10 @@ describe('ItemsController (e2e)', () => {
     }`;
 
     return request(app.getHttpServer())
-      .post('/graphql')
+      .post("/graphql")
       .send({
         operationName: null,
-        query: updateItemQuery,
+        query: updateItemQuery
       })
       .expect(({ body }) => {
         const data = body.data.updateItem;
@@ -122,7 +122,7 @@ describe('ItemsController (e2e)', () => {
       .expect(200);
   });
 
-  it('deleteItem', () => {
+  it("deleteItem", () => {
     const deleteItemQuery = `
       mutation {
         deleteItem(id: "${id}") {
@@ -134,10 +134,10 @@ describe('ItemsController (e2e)', () => {
       }`;
 
     return request(app.getHttpServer())
-      .post('/graphql')
+      .post("/graphql")
       .send({
         operationName: null,
-        query: deleteItemQuery,
+        query: deleteItemQuery
       })
       .expect(({ body }) => {
         const data = body.data.deleteItem;
